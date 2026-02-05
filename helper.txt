@@ -1,1 +1,10 @@
+Docker Compose: 
 docker compose -f deployments/docker-compose.yml up -d
+
+------------------------------------------------------------------------------------
+
+ZIP for backup: 
+zip -r "backup/motionx_backup_$(date +'%Y-%m-%d_%H-%M-%S').zip" . -x "backup/*" "*/node_modules/*" "*/.venv/*" "*.git/*" ".DS_Store"
+
+------------------------------------------------------------------------------------
+
