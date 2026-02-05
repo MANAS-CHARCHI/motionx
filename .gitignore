@@ -1,0 +1,9 @@
+docs/*
+services/fastapi_stream/.env
+services/django_auth/.env
+frontend/app/.env
+frontend/app/node_modules
+frontend/app/dist
+frontend/webapp/.env
+frontend/webapp/node_modules
+frontend/webapp/dist
