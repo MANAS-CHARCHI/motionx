@@ -1,0 +1,17 @@
+# Run all tests
+pytest tests/test_user_apis.py -v
+
+# Run specific test class
+pytest tests/test_user_apis.py::TestUserRegistration -v
+
+# Run specific test
+pytest tests/test_user_apis.py::TestUserLogin::test_valid_login -v
+
+# Run with coverage
+pytest tests/test_user_apis.py --cov=. --cov-report=html -v
+
+# Run and stop on first failure
+pytest tests/test_user_apis.py -x
+
+# Run only failed tests from last run
+pytest tests/test_user_apis.py --lf
