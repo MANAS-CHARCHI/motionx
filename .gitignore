@@ -1,9 +1,18 @@
 docs/*
+
+# FASTAPI STREAM .gitignore
 services/fastapi_stream/.env
+
+# DJANGO AUTH .gitignore
 services/django_auth/.env
+services/django_auth/.venv
+
+# FRONTEND Mobile App .gitignore
 frontend/app/.env
 frontend/app/node_modules
 frontend/app/dist
+
+# FRONTEND Web App .gitignore
 frontend/webapp/.env
 frontend/webapp/node_modules
 frontend/webapp/dist

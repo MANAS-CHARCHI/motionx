@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  motionx-db:
+    image: postgres:17-alpine
+    restart: always
+    command: >
+      postgres
+      -c shared_buffers=256MB
+      -c max_connections=100
+      -c work_mem=16MB
+    environment:
+      - POSTGRES_USER=motionx
+      - POSTGRES_PASSWORD=motionx
+      - POSTGRES_DB=motionx
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
