@@ -1,0 +1,148 @@
+Timestamp,Test Name,Category,HTTP Method,Endpoint,Request Data,Expected Status,Actual Status,Response Body,Test Result,Error Message,Execution Time (ms)
+2026-02-06 05:22:11,Register - Valid registration,Valid Registration,POST,/api/user/register/,"{""email"": ""valid@test.com"", ""user_name"": ""validuser"", ""password"": ""Pass123!""}",201,201,{'message': 'User registered successfully'},PASSED ✅,,236.03
+2026-02-06 05:22:11,Register - Minimum password length,Valid Registration,POST,/api/user/register/,"{""email"": ""test@example.com"", ""user_name"": ""user123"", ""password"": ""a""}",201,201,{'message': 'User registered successfully'},PASSED ✅,,142.38
+2026-02-06 05:22:11,Register - Uppercase email,Valid Registration,POST,/api/user/register/,"{""email"": ""UPPERCASE@TEST.COM"", ""user_name"": ""UPPERCASE"", ""password"": ""Pass123!""}",201,201,{'message': 'User registered successfully'},PASSED ✅,,142.98
+2026-02-06 05:22:11,Register - Uppercase email,Valid Registration,POST,/api/user/register/,"{""email"": ""UPPERCASE@TEST.COM"", ""user_name"": ""UPPERCASE"", ""password"": ""Pass123!""}",ERROR,ERROR,"assert False
+ +  where False = exists()
+ +    where exists = <QuerySet []>.exists
+ +      where <QuerySet []> = filter(email='UPPERCASE@TEST.COM')
+ +        where filter = <UserApp.models.UserManager object at 0x7fc2cd40e9f0>.filter
+ +          where <UserApp.models.UserManager object at 0x7fc2cd40e9f0> = User.objects",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 162, in test_valid_registration
+    assert User.objects.filter(email=test_data['email']).exists()
+AssertionError: assert False
+ +  where False = exists()
+ +    where exists = <QuerySet []>.exists
+ +      where <QuerySet []> = filter(email='UPPERCASE@TEST.COM')
+ +        where filter = <UserApp.models.UserManager object at 0x7fc2cd40e9f0>.filter
+ +          where <UserApp.models.UserManager object at 0x7fc2cd40e9f0> = User.objects
+",143.59
+2026-02-06 05:22:11,Register - Special characters in email,Valid Registration,POST,/api/user/register/,"{""email"": ""special+chars@test.com"", ""user_name"": ""special_user-123"", ""password"": ""Pass123!""}",201,201,{'message': 'User registered successfully'},PASSED ✅,,145.27
+2026-02-06 05:22:11,Register - Missing password field,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""user""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,1.09
+2026-02-06 05:22:11,Register - Missing user_name field,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""password"": ""Pass123!""}",400,201,{'message': 'User registered successfully'},FAILED ❌,,145.41
+2026-02-06 05:22:11,Register - Missing user_name field,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""password"": ""Pass123!""}",ERROR,ERROR,"Expected 400, got 201
+assert False",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 269, in test_invalid_registration
+    assert passed, f""Expected {expected_status}, got {response.status_code}""
+AssertionError: Expected 400, got 201
+assert False
+",145.49
+2026-02-06 05:22:11,Register - Missing email field,Invalid Registration,POST,/api/user/register/,"{""user_name"": ""testuser"", ""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.93
+2026-02-06 05:22:11,Register - All fields missing,Invalid Registration,POST,/api/user/register/,ERROR,400,400,{'error': 'Email and password are required'},PASSED ✅,,0.61
+2026-02-06 05:22:11,Register - Empty email,Invalid Registration,POST,/api/user/register/,"{""email"": """", ""user_name"": ""user"", ""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.6
+2026-02-06 05:22:12,Register - Empty user_name,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": """", ""password"": ""Pass123!""}",400,201,{'message': 'User registered successfully'},FAILED ❌,,143.57
+2026-02-06 05:22:12,Register - Empty user_name,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": """", ""password"": ""Pass123!""}",ERROR,ERROR,"Expected 400, got 201
+assert False",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 269, in test_invalid_registration
+    assert passed, f""Expected {expected_status}, got {response.status_code}""
+AssertionError: Expected 400, got 201
+assert False
+",143.69
+2026-02-06 05:22:12,Register - Empty password,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""user"", ""password"": """"}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.86
+2026-02-06 05:22:12,Register - Null email,Invalid Registration,POST,/api/user/register/,"{""email"": null, ""user_name"": ""user"", ""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.61
+2026-02-06 05:22:12,Register - Null user_name,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": null, ""password"": ""Pass123!""}",400,201,{'message': 'User registered successfully'},FAILED ❌,,143.84
+2026-02-06 05:22:12,Register - Null user_name,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": null, ""password"": ""Pass123!""}",ERROR,ERROR,"Expected 400, got 201
+assert False",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 269, in test_invalid_registration
+    assert passed, f""Expected {expected_status}, got {response.status_code}""
+AssertionError: Expected 400, got 201
+assert False
+",143.92
+2026-02-06 05:22:12,Register - Null password,Invalid Registration,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""user"", ""password"": null}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.72
+2026-02-06 05:22:12,Register Edge - Minimum length values,Edge Cases,POST,/api/user/register/,"{""email"": ""a@b.c"", ""user_name"": ""a"", ""password"": ""x""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,143.7
+2026-02-06 05:22:12,Register Edge - Maximum length values,Edge Cases,POST,/api/user/register/,"{""email"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@test.com"", ""user_name"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"", ""password"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,142.2
+2026-02-06 05:22:12,Register Edge - SQL injection in password,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""user123"", ""password"": ""' OR '1'='1""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,142.45
+2026-02-06 05:22:12,Register Edge - SQL injection in email,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com'; DROP TABLE users;--"", ""user_name"": ""user"", ""password"": ""Pass123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,142.47
+2026-02-06 05:22:12,Register Edge - SQL injection in user_name,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""'; DROP TABLE users;--"", ""password"": ""Pass123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,142.31
+2026-02-06 05:22:13,Register Edge - XSS in email,Edge Cases,POST,/api/user/register/,"{""email"": ""<script>alert('xss')</script>@test.com"", ""user_name"": ""user"", ""password"": ""Pass123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,143.33
+2026-02-06 05:22:13,Register Edge - XSS in user_name,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""<script>alert('xss')</script>"", ""password"": ""Pass123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,143.3
+2026-02-06 05:22:13,Register Edge - Path traversal in user_name,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com"", ""user_name"": ""../../../etc/passwd"", ""password"": ""Pass123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,156.34
+2026-02-06 05:22:13,Register Edge - Unicode/Emoji characters,Edge Cases,POST,/api/user/register/,"{""email"": ""test\ud83d\ude80emoji@test.com"", ""user_name"": ""user\ud83c\udf89"", ""password"": ""Pass123!\ud83d\ude00""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,156.18
+2026-02-06 05:22:13,Register Edge - Newline characters,Edge Cases,POST,/api/user/register/,"{""email"": ""test@test.com\n\r"", ""user_name"": ""user\n\r"", ""password"": ""Pass\n\r123!""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,173.76
+2026-02-06 05:22:13,Register Edge - Whitespace padding,Edge Cases,POST,/api/user/register/,"{""email"": ""   test@test.com   "", ""user_name"": ""   user   "", ""password"": ""   Pass123!   ""}",200/201/400/500,201,{'message': 'User registered successfully'},PASSED ✅,,148.22
+2026-02-06 05:22:14,Register - Duplicate email,Duplicate Registration,POST,/api/user/register/,"{""email"": ""duplicate@test.com"", ""user_name"": ""user2"", ""password"": ""Pass123!""}",500,400,{'error': 'Email already exists'},FAILED ❌,,144.14
+2026-02-06 05:22:14,Register - Duplicate email,Duplicate Registration,POST,/api/user/register/,"{""email"": ""duplicate@test.com"", ""user_name"": ""user2"", ""password"": ""Pass123!""}",ERROR,ERROR,"Expected 500, got 400
+assert False",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 375, in test_duplicate_email_registration
+    assert passed, f""Expected 500, got {response.status_code}""
+AssertionError: Expected 500, got 400
+assert False
+",144.22
+2026-02-06 05:22:14,Login - Valid credentials,Valid Login,POST,/api/user/login/,"{""email"": ""login@test.com"", ""password"": ""Pass123!""}",200,200,"{'message': {'refresh': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ0MTczNCwiaWF0IjoxNzcwMzU1MzM0LCJqdGkiOiI5MjJhMGVmYzUwMTg0MjE4OWFhNjliNzhhODU2N2YwNCIsInVzZXJfaWQiOiIxIn0.aYEenAz64f58MnLb6o496szkg9FDJTwROBco49dzXAw', 'access': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwMzU1NjM0LCJpYXQiOjE3NzAzNTUzMzQsImp0aSI6IjVjYWY4MzZiNTQ2YzQyMThiYjVlMWY4ZWZkZmZjYThmIiwidXNlcl9pZCI6IjEifQ.ekxJkURL7Gxyj05K8VIJhfKrGzQ0rxYdtnutdUPsB",PASSED ✅,,309.33
+2026-02-06 05:22:14,Login - Non-existent email,Invalid Login,POST,/api/user/login/,"{""email"": ""wrong@test.com"", ""password"": ""Pass123!""}",500,500,"{'error': ""'NoneType' object has no attribute 'id'""}",PASSED ✅,,1.05
+2026-02-06 05:22:14,Login - Empty email,Invalid Login,POST,/api/user/login/,"{""email"": """", ""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.58
+2026-02-06 05:22:14,Login - Empty password,Invalid Login,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": """"}",400,400,{'error': 'Email and password are required'},PASSED ✅,,143.15
+2026-02-06 05:22:14,Login - Missing email,Invalid Login,POST,/api/user/login/,"{""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.6
+2026-02-06 05:22:14,Login - Missing password,Invalid Login,POST,/api/user/login/,"{""email"": ""test@test.com""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,142.56
+2026-02-06 05:22:14,Login - All fields missing,Invalid Login,POST,/api/user/login/,ERROR,400,400,{'error': 'Email and password are required'},PASSED ✅,,0.63
+2026-02-06 05:22:14,Login - Null email,Invalid Login,POST,/api/user/login/,"{""email"": null, ""password"": ""Pass123!""}",400,400,{'error': 'Email and password are required'},PASSED ✅,,0.56
+2026-02-06 05:22:14,Login - Null password,Invalid Login,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": null}",400,400,{'error': 'Email and password are required'},PASSED ✅,,142.83
+2026-02-06 05:22:15,Login - Wrong password,Invalid Login,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": ""WrongPass123!""}",400,401,{'error': 'Invalid email or password'},FAILED ❌,,283.27
+2026-02-06 05:22:15,Login - Wrong password,Invalid Login,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": ""WrongPass123!""}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 554, in test_wrong_password_login
+    assert passed
+AssertionError: assert False
+",283.35
+2026-02-06 05:22:15,Login Edge - SQL injection in email,Edge Cases,POST,/api/user/login/,"{""email"": ""test@test.com'; DROP TABLE users;--"", ""password"": ""Pass123!""}",200/400/500,500,"{'error': ""'NoneType' object has no attribute 'id'""}",PASSED ✅,,144.39
+2026-02-06 05:22:15,Login Edge - SQL injection in password,Edge Cases,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": ""' OR '1'='1""}",200/400/500,401,{'error': 'Invalid email or password'},FAILED ❌,,278.29
+2026-02-06 05:22:15,Login Edge - SQL injection in password,Edge Cases,POST,/api/user/login/,"{""email"": ""test@test.com"", ""password"": ""' OR '1'='1""}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 606, in test_edge_cases_login
+    assert passed
+AssertionError: assert False
+",278.37
+2026-02-06 05:22:15,Login Edge - Newline in email,Edge Cases,POST,/api/user/login/,"{""email"": ""test@test.com\n\r"", ""password"": ""Pass123!""}",200/400/500,500,"{'error': ""'NoneType' object has no attribute 'id'""}",PASSED ✅,,141.39
+2026-02-06 05:22:15,Login Edge - Whitespace padding,Edge Cases,POST,/api/user/login/,"{""email"": ""   test@test.com   "", ""password"": ""   Pass123!   ""}",200/400/500,500,"{'error': ""'NoneType' object has no attribute 'id'""}",PASSED ✅,,141.09
+2026-02-06 05:22:15,User Info - Authenticated,Valid Access,GET,/api/user/profile/,"{""Authorization"": ""Bearer <token>""}",200,200,"{'email': 'test@example.com', 'first_name': '', 'last_name': '', 'last_login': None}",PASSED ✅,,1.37
+2026-02-06 05:22:15,User Info - Authenticated,Valid Access,GET,/api/user/profile/,"{""Authorization"": ""Bearer <token>""}",ERROR,ERROR,"assert 'details' in {'email': 'test@example.com', 'first_name': '', 'last_name': '', 'last_login': None}
+ +  where {'email': 'test@example.com', 'first_name': '', 'last_name': '', 'last_login': None} = functools.partial(<bound method ClientMixin._parse_json of <rest_framework.test.APIClient object at 0x7fc2a8316c90>>, <Response status_code=200, ""application/json"">)()
+ +    where functools.partial(<bound method ClientMixin._parse_json of <rest_framework.test.APIClient object at 0x7fc2a8316c90>>, ",FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 660, in test_get_user_info_authenticated
+    assert 'details' in response.json()
+AssertionError: assert 'details' in {'email': 'test@example.com', 'first_name': '', 'last_name': '', 'last_login': None}
+ +  where {'email': 'test@example.com', 'first_name': '', 'last_name': '', 'last_login': None} = functools.partial(<bound method ClientMixin._parse_json of <rest_framework.test.APIClient object at 0x7fc2a8316c90>>, <Response status_code=200, ""application/json"">)()
+ +    where functools.partial(<bound method ClientMixin._parse_json of <rest_framework.test.APIClient object at 0x7fc2a8316c90>>, <Response status_code=200, ""application/json"">) = <Response status_code=200, ""application/json"">.json
+",1.47
+2026-02-06 05:22:15,User Info - No token,Unauthorized Access,GET,/api/user/profile/,ERROR,401,401,{'detail': 'Authentication credentials were not provided.'},PASSED ✅,,0.62
+2026-02-06 05:22:15,User Info - Empty token,Unauthorized Access,GET,/api/user/profile/,"{""Authorization"": """"}",401,401,{'detail': 'Authentication credentials were not provided.'},PASSED ✅,,0.52
+2026-02-06 05:22:15,User Info - Invalid token,Unauthorized Access,GET,/api/user/profile/,"{""Authorization"": ""invalid_token""}",401,401,{'detail': 'Authentication credentials were not provided.'},PASSED ✅,,0.49
+2026-02-06 05:22:15,User Info - Invalid Bearer token,Unauthorized Access,GET,/api/user/profile/,"{""Authorization"": ""Bearer invalid_token""}",401,401,"{'detail': 'Given token not valid for any token type', 'code': 'token_not_valid', 'messages': [{'token_class': 'AccessToken', 'token_type': 'access', 'message': 'Token is invalid'}]}",PASSED ✅,,1.42
+2026-02-06 05:22:15,User Info - Malformed JWT,Unauthorized Access,GET,/api/user/profile/,"{""Authorization"": ""xxx.yyy.zzz""}",401,401,{'detail': 'Authentication credentials were not provided.'},PASSED ✅,,0.58
+2026-02-06 05:22:16,Logout - Valid token,Valid Logout,POST,/api/user/logout/,"{""refresh"": ""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ0MTczNiwiaWF0IjoxNzcwMzU1MzM2LCJqdGkiOiI2MDlhYjY2OTljMWM0M2I0YjhhMjg2MjkzNTRlNGI3ZiIsInVzZXJfaWQiOiIxIn0.G7EJZoEzKCQacBByhbLR48maQDtkOlGOlwuRA7NNghc""}",200,205,{'message': 'User logged out successfully'},FAILED ❌,,3.17
+2026-02-06 05:22:16,Logout - Valid token,Valid Logout,POST,/api/user/logout/,"{""refresh"": ""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ0MTczNiwiaWF0IjoxNzcwMzU1MzM2LCJqdGkiOiI2MDlhYjY2OTljMWM0M2I0YjhhMjg2MjkzNTRlNGI3ZiIsInVzZXJfaWQiOiIxIn0.G7EJZoEzKCQacBByhbLR48maQDtkOlGOlwuRA7NNghc""}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 807, in test_valid_logout
+    assert passed
+AssertionError: assert False
+",3.23
+2026-02-06 05:22:16,Logout - Missing refresh token,Invalid Logout,POST,/api/user/logout/,ERROR,500,205,{'message': 'User logged out successfully'},FAILED ❌,,2.19
+2026-02-06 05:22:16,Logout - Missing refresh token,Invalid Logout,POST,/api/user/logout/,ERROR,ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 859, in test_invalid_logout
+    assert passed
+AssertionError: assert False
+",2.24
+2026-02-06 05:22:16,Logout - Empty refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": """"}",500,400,{'error': 'Token is invalid'},FAILED ❌,,1.26
+2026-02-06 05:22:16,Logout - Empty refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": """"}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 859, in test_invalid_logout
+    assert passed
+AssertionError: assert False
+",1.31
+2026-02-06 05:22:16,Logout - Null refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": null}",500,205,{'message': 'User logged out successfully'},FAILED ❌,,2.15
+2026-02-06 05:22:16,Logout - Null refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": null}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 859, in test_invalid_logout
+    assert passed
+AssertionError: assert False
+",2.2
+2026-02-06 05:22:16,Logout - Invalid refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": ""invalid_token""}",500,400,{'error': 'Token is invalid'},FAILED ❌,,1.16
+2026-02-06 05:22:16,Logout - Invalid refresh token,Invalid Logout,POST,/api/user/logout/,"{""refresh"": ""invalid_token""}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 859, in test_invalid_logout
+    assert passed
+AssertionError: assert False
+",1.22
+2026-02-06 05:22:16,Logout - Malformed JWT,Invalid Logout,POST,/api/user/logout/,"{""refresh"": ""xxx.yyy.zzz""}",500,400,{'error': 'Token is invalid'},FAILED ❌,,1.29
+2026-02-06 05:22:16,Logout - Malformed JWT,Invalid Logout,POST,/api/user/logout/,"{""refresh"": ""xxx.yyy.zzz""}",ERROR,ERROR,assert False,FAILED ❌,"Traceback (most recent call last):
+  File ""/home/meritech/ManasStudy/motionx/services/django-auth/tests/test_user_apis.py"", line 859, in test_invalid_logout
+    assert passed
+AssertionError: assert False
+",1.35
+2026-02-06 05:22:16,Logout - No authentication,Unauthorized Access,POST,/api/user/logout/,"{""refresh"": ""some_token""}",401,401,{'detail': 'Authentication credentials were not provided.'},PASSED ✅,,0.75
+2026-02-06 05:22:19,Performance - Bulk registrations (20 users),Performance,POST,/api/user/register/,"""20 registration requests""",ERROR,"20 success, 0 failed","Total: 2.91s, Avg: 145.59ms per request",PASSED ✅,,2911.78
+2026-02-06 05:22:21,Performance - Concurrent logins (10 attempts),Performance,POST,/api/user/login/,"""10 login requests""",ERROR,"10 success, 0 failed","Total: 1.56s, Avg: 155.87ms per request",PASSED ✅,,1558.74

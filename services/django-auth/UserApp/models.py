@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-# Create your models here.
-
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from . import utils
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -29,9 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     user_name = models.CharField(max_length=30, unique=True, default='')
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
+    is_active = models.BooleanField(default=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -39,3 +37,29 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+class UserActiveToken(models.Model):
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"
+    
+class UserPasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"
+    
+@receiver(post_save, sender=User)
+def create_user_active_token(sender, instance, created, **kwargs):
+    if created:
+        token = utils.create_token()
+        try:
+            UserActiveToken.objects.create(user=instance, token=token)
+        except Exception as e:
+            print(f"Error creating user active token: {e}")
+        # TODO: Send activation email with the token
